@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: go-app
-        image: arashgh/uni-project:latest # Updated dynamically via GitHub Actions
+        image: arashgh/uni-project:ae55b74a291b1043c89ea6987090be6eab5818d7
         ports:
         - containerPort: 8080
         env:
