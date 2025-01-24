@@ -1,11 +1,10 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: go-app
-  labels:
-    app: go-app
+  namespace: default
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: go-app
@@ -22,6 +21,14 @@ spec:
         env:
         - name: ENV_VAR
           value: "production"
+  strategy:
+    canary:
+      steps:
+      - setWeight: 25
+      - pause: { duration: 60s }
+      - setWeight: 50
+      - pause: { duration: 60s }
+      - setWeight: 100
 ---
 apiVersion: v1
 kind: Service
