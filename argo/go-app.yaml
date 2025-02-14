@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/Arash-81/k8s-manifests' # Replace with your repository
-    targetRevision: main # Branch to sync
-    path: go-app # Directory where YAML files are stored
+    repoURL: 'https://github.com/Arash-81/k8s-manifests' 
+    targetRevision: main 
+    path: go-app 
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
