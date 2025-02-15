@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: monitoring
+  sources:
+    - repoURL: 'https://prometheus-community.github.io/helm-charts'
+      chart: kube-prometheus-stack
+      targetRevision: 69.3.1
+      helm:
+        valueFiles:
+          - $values/prometheus/values.yaml
+    - repoURL: 'https://github.com/Arash-81/k8s-manifests'
+      targetRevision: main
+      ref: values
+  project: default
+
