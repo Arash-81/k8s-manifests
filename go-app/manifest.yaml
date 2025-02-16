@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: go-app
-        image: arashgh/uni-project:6513c96
+        image: arashgh/uni-project:95bd3b3
         ports:
         - containerPort: 8080
         env:
