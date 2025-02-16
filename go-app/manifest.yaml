@@ -52,6 +52,7 @@ kind: ServiceMonitor
 metadata:
   labels:
     serviceMonitorSelector: prometheus
+    release: prometheus
   name: go-app
   namespace: monitoring
 spec:
@@ -65,4 +66,3 @@ spec:
   selector:
     matchLabels:
       monitoring: enable
-
