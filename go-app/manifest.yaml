@@ -64,5 +64,5 @@ spec:
     - default
   selector:
     matchLabels:
-    monitoring: enable
+      monitoring: enable
 
