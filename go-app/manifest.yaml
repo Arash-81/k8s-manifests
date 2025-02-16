@@ -36,6 +36,7 @@ metadata:
   name: go-app-service
   labels:
     app: go-app
+    monitoring: enable
 spec:
   selector:
     app: go-app
@@ -45,4 +46,23 @@ spec:
     targetPort: 3000
     nodePort: 30008
   type: NodePort
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    serviceMonitorSelector: prometheus
+  name: go-app
+  namespace: monitoring
+spec:
+  endpoints:
+  - interval: 15s
+    targetPort: 3000
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+    monitoring: enable
 
