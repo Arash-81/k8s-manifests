@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: go-app
-        image: arashgh/uni-project:2d16bc2
+        image: arashgh/uni-project:5365d2a
         ports:
         - containerPort: 3000
         env:
