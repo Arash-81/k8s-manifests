@@ -83,7 +83,6 @@ spec:
   metrics:
   - name: error-rate
     interval: 30s
-    count: 3
     successCondition: "result[0] < 0.2"
     failureCondition: "result[0] >= 0.2"
     provider:
