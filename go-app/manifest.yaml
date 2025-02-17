@@ -4,7 +4,7 @@ metadata:
   name: go-app
   namespace: default
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: go-app
@@ -17,7 +17,7 @@ spec:
       - name: go-app
         image: arashgh/uni-project:2d16bc2
         ports:
-        - containerPort: 8080
+        - containerPort: 3000
         env:
         - name: ENV_VAR
           value: "production"
@@ -26,8 +26,14 @@ spec:
       steps:
       - setWeight: 25
       - pause: { duration: 60s }
+      - analysis:
+          templates:
+          - templateName: error-rate-check
       - setWeight: 50
       - pause: { duration: 60s }
+      - analysis:
+          templates:
+          - templateName: error-rate-check
       - setWeight: 100
 ---
 apiVersion: v1
@@ -60,9 +66,28 @@ spec:
   - interval: 15s
     targetPort: 3000
     path: /metrics
+    scheme: http
   namespaceSelector:
     matchNames:
     - default
   selector:
     matchLabels:
       monitoring: enable
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: error-rate-check
+  namespace: default
+spec:
+  metrics:
+  - name: error-rate
+    interval: 20s
+    successCondition: "result[0] > 0.08"
+    provider:
+      prometheus:
+        address: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+        query: |
+          sum(rate(http_requests_total{status_code=~"5.."}[1m])) 
+          / 
+          sum(rate(http_requests_total[1m]))
